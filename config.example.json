@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "scope": {
+    "company": "Example Company",
+    "website": "https://example.com",
+    "products": ["Example Product"],
+    "coverage": "focused_plus",
+    "focus": "Onboarding",
+    "areas": [],
+    "competitor_mode": "augment",
+    "competitors": [],
+    "feedback_sources": {
+      "competitors": {"mode": "discover", "sources": []},
+      "own": {"mode": "discover", "sources": []}
+    },
+    "markets": ["GB"],
+    "timezone": "Europe/London"
+  },
+  "report_directory": "reports",
+  "adapters": {
+    "research": ["python3", "research_adapter.py"],
+    "model": ["python3", "model_adapter.py"],
+    "delivery": null
+  }
+}
