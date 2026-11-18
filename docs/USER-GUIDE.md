@@ -62,3 +62,35 @@ Once a test run works, configure your scheduler to run the weekly command from t
 ```
 
 For delivery beyond the local report, configure a delivery adapter. It receives the Markdown and period end date and returns a JSON acknowledgement.
+
+### Send the brief by email or Slack
+
+Set `adapters.delivery` in your local `config.json` to one of these command arrays:
+
+| Destination | Command array |
+| --- | --- |
+| Email | `["python3", "deliver.py", "email"]` |
+| Slack | `["python3", "deliver.py", "slack"]` |
+
+For email, set `PIC_SMTP_HOST`, `PIC_EMAIL_FROM` and `PIC_EMAIL_TO` in the environment
+of the process running the brief. Separate multiple recipients with commas. If your SMTP
+provider requires authentication, also set `PIC_SMTP_USERNAME` and `PIC_SMTP_PASSWORD`.
+The default is STARTTLS on port 587. For implicit TLS, set `PIC_SMTP_SECURITY=ssl`
+to use port 465. Set `PIC_SMTP_PORT` if your provider uses a different port.
+
+For Slack, create an incoming webhook for the channel you want and set its URL as
+`PIC_SLACK_WEBHOOK_URL` in the scheduled process's environment. The webhook determines
+the channel. Keep the URL and SMTP credentials out of GitHub and the agent config.
+
+Run the CLI once with a test destination before enabling the weekly schedule. The CLI
+saves the Markdown report before calling the delivery adapter. If a send fails, you can
+retry delivery from the saved report without repeating the research. Check the destination
+first if the outcome is unclear to avoid sending duplicates:
+
+```sh
+python3 -c 'import json, pathlib, sys; p = pathlib.Path(sys.argv[1]); print(json.dumps(dict(report=p.read_text(encoding="utf-8"), period_end=p.stem)))' reports/YYYY-MM-DD.md | python3 deliver.py email
+```
+
+Use `slack` at the end of the command to retry Slack delivery. If you're running directly
+inside an AI tool, use its own mail or Slack integration if available. The bundled adapter
+runs through the Python CLI.

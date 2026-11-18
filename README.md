@@ -26,3 +26,5 @@ See the [user guide](docs/USER-GUIDE.md) for a walkthrough from setup to your fi
 | A terminal or external scheduler | Run [agent.py](agent.py) with your own research and model adapters. The [user guide](docs/USER-GUIDE.md#run-from-a-terminal) covers the commands and adapter requirements. |
 
 The workflow is shared across tools. Web access, background runs and delivery depend on the host or adapters you use. The example config contains placeholder adapter commands.
+
+The CLI can send the weekly brief by email or Slack using the included [delivery adapter](docs/USER-GUIDE.md#send-the-brief-by-email-or-slack).
